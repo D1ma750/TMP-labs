@@ -72,3 +72,26 @@ def test_longest_run_comprehensive(bit_string, block_size, expected_error):
         result = test_longest_run(bit_string, block_size)
         assert isinstance(result, float)
         assert 0 <= result <= 1
+
+
+@pytest.mark.parametrize("sequence_func,test_func", [
+    (lambda: "01" * 50, test_frequency),
+    (lambda: "1100" * 25, test_runs),
+    (lambda: "1" * 80, test_frequency),
+    (lambda: "000111000111" * 10, test_runs),
+])
+def test_multiple_functions_same_sequence(sequence_func, test_func):
+    """Test multiple functions with dynamically generated sequences"""
+    bit_string = sequence_func()
+    result = test_func(bit_string)
+
+    assert isinstance(result, float)
+    assert 0 <= result <= 1
+
+    if test_func == test_longest_run:
+        adjusted_length = (len(bit_string) // 8) * 8
+        if adjusted_length > 0:
+            adjusted_bit_string = bit_string[:adjusted_length]
+            result = test_longest_run(adjusted_bit_string, block_size=8)
+            assert isinstance(result, float)
+            assert 0 <= result <= 1
