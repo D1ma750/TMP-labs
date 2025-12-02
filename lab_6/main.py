@@ -50,12 +50,12 @@ def main():
     Выполняет тесты NIST для последовательностей из C++ и Java,
     записывает результаты в файл.
     """
-    frequency_cpp = nist_test.test_frequency(read_file(constants.bin_cpp))
-    frequency_java = nist_test.test_frequency(read_file(constants.bin_java))
-    runs_cpp = nist_test.test_runs(read_file(constants.bin_cpp))
-    runs_java = nist_test.test_runs(read_file(constants.bin_java))
-    longest_run_cpp = nist_test.test_longest_run(read_file(constants.bin_cpp))
-    longest_run_java = nist_test.test_longest_run(read_file(constants.bin_java))
+    frequency_cpp = nist_test.frequency_test(read_file(constants.bin_cpp))
+    frequency_java = nist_test.frequency_test(read_file(constants.bin_java))
+    runs_cpp = nist_test.runs_test(read_file(constants.bin_cpp))
+    runs_java = nist_test.runs_test(read_file(constants.bin_java))
+    longest_run_cpp = nist_test.longest_run_test(read_file(constants.bin_cpp))
+    longest_run_java = nist_test.longest_run_test(read_file(constants.bin_java))
     write_results(frequency_cpp, frequency_java, runs_cpp, runs_java, longest_run_cpp, longest_run_java,
                   constants.result)
 

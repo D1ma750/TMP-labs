@@ -1,11 +1,11 @@
 import pytest
-from nist_test import test_frequency, test_runs, test_longest_run
+from nist_test import frequency_test, runs_test, longest_run_test
 
 
 def test_frequency_balanced_sequence():
     """Test with balanced sequence of zeros and ones"""
     bit_string = "0101010101"
-    result = test_frequency(bit_string)
+    result = frequency_test(bit_string)
     assert isinstance(result, float)
     assert 0 <= result <= 1
 
@@ -13,7 +13,7 @@ def test_frequency_balanced_sequence():
 def test_frequency_all_ones():
     """Test with sequence containing only ones"""
     bit_string = "1111111111"
-    result = test_frequency(bit_string)
+    result = frequency_test(bit_string)
     assert isinstance(result, float)
     assert result < 0.05
 
@@ -21,7 +21,7 @@ def test_frequency_all_ones():
 def test_runs_alternating_sequence():
     """Test with perfectly alternating sequence"""
     bit_string = "0101010101"
-    result = test_runs(bit_string)
+    result = runs_test(bit_string)
     assert isinstance(result, float)
     assert 0 <= result <= 1
 
@@ -29,7 +29,7 @@ def test_runs_alternating_sequence():
 def test_longest_run_valid_sequence():
     """Test with valid sequence that divides evenly into blocks"""
     bit_string = "11001100011100001111" * 4
-    result = test_longest_run(bit_string, block_size=8)
+    result = longest_run_test(bit_string, block_size=8)
     assert isinstance(result, float)
     assert 0 <= result <= 1
 
@@ -38,7 +38,7 @@ def test_longest_run_invalid_length():
     """Test with sequence length not divisible by block size"""
     bit_string = "11001100"
     with pytest.raises(ValueError, match="Длина последовательности.*кратна"):
-        test_longest_run(bit_string, block_size=3)
+        longest_run_test(bit_string, block_size=3)
 
 
 @pytest.mark.parametrize("bit_string,expected_type", [
@@ -51,7 +51,7 @@ def test_longest_run_invalid_length():
 ])
 def test_frequency_parameterized(bit_string, expected_type):
     """Parameterized test for frequency function with various inputs"""
-    result = test_frequency(bit_string)
+    result = frequency_test(bit_string)
     assert isinstance(result, expected_type)
     assert 0 <= result <= 1
 
@@ -67,18 +67,18 @@ def test_longest_run_comprehensive(bit_string, block_size, expected_error):
     """Comprehensive parameterized test for longest_run with various scenarios"""
     if expected_error:
         with pytest.raises(ValueError):
-            test_longest_run(bit_string, block_size)
+            longest_run_test(bit_string, block_size)
     else:
-        result = test_longest_run(bit_string, block_size)
+        result = longest_run_test(bit_string, block_size)
         assert isinstance(result, float)
         assert 0 <= result <= 1
 
 
 @pytest.mark.parametrize("sequence_func,test_func", [
-    (lambda: "01" * 50, test_frequency),
-    (lambda: "1100" * 25, test_runs),
-    (lambda: "1" * 80, test_frequency),
-    (lambda: "000111000111" * 10, test_runs),
+    (lambda: "01" * 50, frequency_test),
+    (lambda: "1100" * 25, runs_test),
+    (lambda: "1" * 80, frequency_test),
+    (lambda: "000111000111" * 10, runs_test),
 ])
 def test_multiple_functions_same_sequence(sequence_func, test_func):
     """Test multiple functions with dynamically generated sequences"""
@@ -88,10 +88,10 @@ def test_multiple_functions_same_sequence(sequence_func, test_func):
     assert isinstance(result, float)
     assert 0 <= result <= 1
 
-    if test_func == test_longest_run:
+    if test_func == longest_run_test:
         adjusted_length = (len(bit_string) // 8) * 8
         if adjusted_length > 0:
             adjusted_bit_string = bit_string[:adjusted_length]
-            result = test_longest_run(adjusted_bit_string, block_size=8)
+            result = longest_run_test(adjusted_bit_string, block_size=8)
             assert isinstance(result, float)
             assert 0 <= result <= 1

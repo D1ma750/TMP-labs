@@ -2,7 +2,7 @@ import math
 from scipy.special import gammaincc
 
 
-def test_frequency(bit_string):
+def frequency_test(bit_string):
     """
     Частотный тест NIST.
     Проверяет частоту появления нулей и единиц в последовательности.
@@ -15,7 +15,7 @@ def test_frequency(bit_string):
     res = math.erfc(abs(sums) / math.sqrt(2))
     return res
 
-def test_runs(bit_string):
+def runs_test(bit_string):
     """
     Тест на одинаковые подряд идущие биты.
     Проверяет частоту смены знаков в последовательности.
@@ -44,7 +44,7 @@ def test_runs(bit_string):
     return res
 
 
-def test_longest_run(bin_seq, block_size=8):
+def longest_run_test(bin_seq, block_size=8):
     """
     Тест на самую длинную последовательность единиц в блоке.
     Проверяет длину самой длинной последовательности единиц в каждом блоке.
@@ -91,4 +91,3 @@ def test_longest_run(bin_seq, block_size=8):
     res = gammaincc(1.5, hi_square / 2)
 
     return res
-
