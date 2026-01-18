@@ -1,5 +1,5 @@
 #console_ui.py - консольный интерфейс
-from typing import Callable, Optional
+from typing import List, Optional
 from datetime import datetime
 from task_manager import TaskManager
 from task import Task

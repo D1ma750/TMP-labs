@@ -1,6 +1,6 @@
 # storage.py - абстракция для хранения данных
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List
 import json
 import os
 from task import Task

@@ -30,9 +30,7 @@ class TaskRepository:
     def update(self, task: Task) -> None:
         """Обновляет задачу."""
         if task.id in self._task_index:
-            # В dataclass объекты иммутабельны, создаем новый
             self._task_index[task.id] = task
-            # Находим и заменяем в списке
             for i, t in enumerate(self._tasks):
                 if t.id == task.id:
                     self._tasks[i] = task
